@@ -14,3 +14,9 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+//Invocamos la el método del controlador deseado
+Route::get('/users/send_notification/{id}', ['uses' =>'genericController@sendNotification']);
+
+
+
