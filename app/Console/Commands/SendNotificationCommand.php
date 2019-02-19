@@ -2,7 +2,11 @@
 
 namespace App\Console\Commands;
 
+use App\Providers\NotificationService;
+use App\Providers\SesProvider;
+use App\User;
 use Illuminate\Console\Command;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class SendNotificationCommand extends Command
 {
@@ -11,7 +15,7 @@ class SendNotificationCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'SendNotificationCommand {id}';
 
     /**
      * The console command description.
@@ -37,6 +41,30 @@ class SendNotificationCommand extends Command
      */
     public function handle()
     {
-        //
+        $userId = $this->argument('id');
+
+        try {
+
+            //emulamos
+            //recuperamos el usuario, emulamos dicha recuperacion de datos
+            //$user = User::findorFail($userId);
+            $user = new User();
+            $user->setEmail("test@test.com");
+            $message = "un texto aleatorio";
+
+            //instanciamos e invocamos
+            $notificacionService = new NotificationService(new SesProvider());
+            $result = $notificacionService->notify($user, $message);
+
+            echo "UserId: ".$userId." email:".$user->getEmail().";message:".$message." result:".$result;
+
+        }
+        catch(ModelNotFoundException $e) {
+
+            //por ejemplo
+            dd($e);
+        }
+
     }
+
 }

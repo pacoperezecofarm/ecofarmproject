@@ -27,4 +27,22 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+
+    /**
+     * Seteamos el mail del usuario
+     * @param $email
+     */
+    public function setEmail($email){
+
+        $this->email=$email;
+    }
+    /**
+     * Devuelve el mail de un usuario
+     * @return mixed
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
 }
